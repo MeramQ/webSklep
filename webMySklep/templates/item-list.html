@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sklep Internetowy</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">Produkty</h1>
+        
+        <div class="row">
+            {% for item in items %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <img src="{{ item.image.url }}" class="card-img-top mb-3" alt="{{ item.name }}">
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="fw-bold">{{ item.price }} PLN</p>
+                        <span class="text-muted">{{ item.stock }}</span>
+                    </div>
+                    <div class="card-footer text-end">
+                        <button class="btn btn-primary">Dodaj do koszyka</button>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center">Brak produktów.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
