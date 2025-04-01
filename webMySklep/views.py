@@ -5,3 +5,7 @@ from .models import Item
 def index(request):
     items = Item.objects.all()
     return render(request, 'item-list.html', {'items': items})
+
+def admin(request):
+    items = Item.objects.all()
+    return render(request, 'admin-panel.html', {'items': items})
