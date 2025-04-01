@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, admin, add_item, edit_item, delete_item, delete_selected_items
+from .views import index, admin, add_item, edit_item, delete_item, delete_selected_items, login_view, logout_view
 
 urlpatterns = [
     path('', index, name='index'),
@@ -8,4 +8,6 @@ urlpatterns = [
     path('admin-panel/edit/<int:item_id>/', edit_item, name='edit_item'),
     path('admin-panel/delete/<int:item_id>/', delete_item, name='delete_item'),
     path('admin-panel/delete-selected/', delete_selected_items, name='delete_selected_items'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
 ]

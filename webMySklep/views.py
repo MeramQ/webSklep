@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Item
 from .forms import ItemForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
     items = Item.objects.all()
     return render(request, 'item-list.html', {'items': items})
 
+@login_required
 def admin(request):
     items = Item.objects.all()
     return render(request, 'admin-panel.html', {'items': items})
@@ -47,3 +50,23 @@ def delete_selected_items(request):
         Item.objects.filter(id__in=selected_ids).delete()
         messages.success(request, "Zaznaczone przedmioty zostały usunięte!")
     return redirect('admin-panel')
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Zalogowano pomyślnie!")
+            return redirect('admin-panel')
+        else:
+            messages.error(request, "Nieprawidłowe dane logowania!")
+
+    return render(request, 'login.html')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Wylogowano pomyślnie!")
+    return redirect('login')
