@@ -18,7 +18,7 @@ def add_item(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Przedmiot został dodany!")
-            return redirect('admin')
+            return redirect('admin-panel')
     else:
         form = ItemForm()
     return render(request, 'add-item.html', {'form': form})
@@ -30,7 +30,7 @@ def edit_item(request, item_id):
         if form.is_valid():
             form.save()
             messages.success(request, "Przedmiot został zaktualizowany!")
-            return redirect('admin')
+            return redirect('admin-panel')
     else:
         form = ItemForm(instance=item)
     return render(request, 'edit-item.html', {'form': form, 'item': item})
@@ -39,11 +39,11 @@ def delete_item(request, item_id):
     item = get_object_or_404(Item, id=item_id)
     item.delete()
     messages.success(request, "Przedmiot został usunięty!")
-    return redirect('admin')
+    return redirect('admin-panel')
 
 def delete_selected_items(request):
     if request.method == 'POST':
         selected_ids = request.POST.getlist('selected_items')
         Item.objects.filter(id__in=selected_ids).delete()
         messages.success(request, "Zaznaczone przedmioty zostały usunięte!")
-    return redirect('admin')
+    return redirect('admin-panel')
